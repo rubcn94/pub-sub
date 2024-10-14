@@ -1,21 +1,41 @@
 package org.example;
 
-// src/Main.java
+import org.example.QueuePublisher;
+import org.example.SuscriptorInterface;
+import org.example.QueueSubscriber;
+
 public class Main {
-    public static void main(String[] args) {
-        Publicador publicador = new Publicador();
+    public static void main(String[] args) throws InterruptedException {
+        // Crear el Publisher
+        QueuePublisher publisher = new QueuePublisher();
 
-        Suscriptor suscriptor1 = new Suscriptor("Suscriptor 1");
-        Suscriptor suscriptor2 = new Suscriptor("Suscriptor 2");
+        // Crear varios suscriptores
+        SuscriptorInterface subscriber1 = new QueueSubscriber("Subscriber 1");
+        SuscriptorInterface subscriber2 = new QueueSubscriber("Subscriber 2");
+        SuscriptorInterface subscriber3 = new QueueSubscriber("Subscriber 3");
 
-        publicador.suscribir(suscriptor1);
-        publicador.suscribir(suscriptor2);
+        // Suscribir los suscriptores al Publisher
+        publisher.subscribe(subscriber1);
+        publisher.subscribe(subscriber2);
+        publisher.subscribe(subscriber3);
 
-        publicador.publicar("Mensaje de prueba");
+        // Publicar varios mensajes
+        publisher.pub("Message 1");
+        publisher.pub("Message 2");
+        publisher.pub("Message 3");
+        publisher.pub("Message 4");
 
-        publicador.desuscribir(suscriptor1);
+        // Esperar un poco para que los suscriptores procesen los mensajes
+        Thread.sleep(5000);
 
-        publicador.publicar("Otro mensaje de prueba");
+        // Desuscribir a uno de los suscriptores
+        publisher.unsubscribe(subscriber2);
+
+        // Publicar más mensajes
+        publisher.pub("Message 5");
+        publisher.pub("Message 6");
+
+        // Esperar un poco más para que se procesen los mensajes
+        Thread.sleep(5000);
     }
 }
-

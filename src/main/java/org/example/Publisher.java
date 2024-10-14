@@ -4,17 +4,17 @@ package org.example;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Publicador implements PublicadorInterface {
+public class Publisher implements PublisherInterface {
     private List<SuscriptorInterface> suscriptores = new ArrayList<>();
 
     @Override
-    public void suscribir(SuscriptorInterface suscriptor) {
+    public void subscribe(SuscriptorInterface suscriptor) {
         suscriptores.add(suscriptor);
         System.out.println("Se ha suscrito: " + suscriptor.toString());
     }
 
     @Override
-    public void desuscribir(SuscriptorInterface suscriptor) {
+    public void unsubscribe(SuscriptorInterface suscriptor) {
         if (suscriptores.remove(suscriptor)) {
             // Aquí añadimos el mensaje de desuscripción
             System.out.println("Se ha desuscrito: " + suscriptor.toString());
@@ -24,7 +24,7 @@ public class Publicador implements PublicadorInterface {
     }
 
     @Override
-    public void publicar(String mensaje) {
+    public void pub(String mensaje) {
         for (SuscriptorInterface suscriptor : suscriptores) {
             suscriptor.actualizar(mensaje);
         }
